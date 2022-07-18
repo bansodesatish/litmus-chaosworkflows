@@ -12,9 +12,10 @@ def chaosResults = ""
 def chaosResult = ""
 pipeline {
     environment {
-		DOCKERHUB_CREDENTIALS=credentials('chaoscarnival22')
-        DOCKER_DEV_PATH = "chaoscarnival22/dev"
-        DOCKER_PROD_PATH = "chaoscarnival22/prod"
+		DOCKERHUB_CREDENTIALS_DEV=credentials('bansodesatish24')
+		DOCKERHUB_CREDENTIALS_PROD=credentials('sat30bansode24')
+        DOCKER_DEV_PATH = "bansodesatish24/dev"
+        DOCKER_PROD_PATH = "sat30bansode24/prod"
         DOCKER_IMAGE_PREFIX = "chaoscarnival-demo"
 	}
     agent {
