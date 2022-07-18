@@ -50,9 +50,6 @@ pipeline {
                     script {
                             DATE_VERSION = new Date().format('yyyyMMdd')
                             VERSION_SUFFIX = 'demo'
-                            if(BRANCH_NAME != 'master') {
-                                VERSION_SUFFIX="${BRANCH_NAME}"
-                            }
                             VERSION_SUFFIX = "${VERSION_SUFFIX}-BUILD-${BUILD_NUMBER}"
                             env.DOCKER_IMAGE_TAG = "${VERSION_SUFFIX}"
                             env.APP_DOCKER_IMAGE_DEV = "${DOCKER_DEV_PATH}-chaoscarnival-demo:${DOCKER_IMAGE_TAG}"
