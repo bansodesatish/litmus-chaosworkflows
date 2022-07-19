@@ -94,15 +94,18 @@ pipeline {
                 }  
             }
         }
-        stage('deploy application on kubernetes cluster') {
+        stage('Creating/Updating the app with new image and inject chaos') {
             steps {
                 container('chaos-builder') {  
                     sh '''
-                    cd app
                     echo ""
                     kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$DOCKERHUB_CREDENTIALS_DEV_USR --docker-password=$DOCKERHUB_CREDENTIALS_DEV_PSW  --dry-run=true -o yaml | kubectl apply -f -
                     echo ""
-                    cat app.yaml | sed "s|{{DOCKER_IMAGE}}|$APP_DOCKER_IMAGE_DEV|" | sed "s|{{REGISTRY_PULL_SECRET}}|regcred|" | kubectl apply -f -
+                    cat manifests/app/app.yaml | sed "s|{{DOCKER_IMAGE}}|$APP_DOCKER_IMAGE_DEV|" | sed "s|{{REGISTRY_PULL_SECRET}}|regcred|" | kubectl apply -f -
+                    kubectl wait --for=condition=available --timeout=600s deployment/${DOCKER_IMAGE_PREFIX} -n app
+                    
+                    echo "unleash the chaos => CPU hogging"
+                    ./scripts/chaos.sh
                     '''
                 }  
             }
