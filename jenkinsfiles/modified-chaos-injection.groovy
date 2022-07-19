@@ -88,6 +88,7 @@ pipeline {
                     docker push ${APP_DOCKER_IMAGE_DEV}
                     sed --help
                     awk --help
+                    echo "ENV: ${ENV}"
                     '''
                     
                 }  
