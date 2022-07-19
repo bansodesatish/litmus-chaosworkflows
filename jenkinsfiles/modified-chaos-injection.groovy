@@ -99,9 +99,9 @@ pipeline {
                 container('chaos-builder') {  
                     sh '''
                     echo ""
-                    kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$DOCKERHUB_CREDENTIALS_DEV_USR --docker-password=$DOCKERHUB_CREDENTIALS_DEV_PSW  --dry-run=true -o yaml | kubectl apply -f -
+                    kubectl create secret docker-registry regcred --docker-server=https://index.docker.io/v1/ --docker-username=$DOCKERHUB_CREDENTIALS_DEV_USR --docker-password=$DOCKERHUB_CREDENTIALS_DEV_PSW  --dry-run=true -o yaml | kubectl apply -n app -f -
                     echo ""
-                    cat manifests/app/app.yaml | sed "s|{{DOCKER_IMAGE}}|$APP_DOCKER_IMAGE_DEV|" | sed "s|{{REGISTRY_PULL_SECRET}}|regcred|" | kubectl apply -f -
+                    cat ./manifests/app/app.yml | sed "s|{{DOCKER_IMAGE}}|$APP_DOCKER_IMAGE_DEV|" | sed "s|{{REGISTRY_PULL_SECRET}}|regcred|" | kubectl apply -f -
                     kubectl wait --for=condition=available --timeout=600s deployment/${DOCKER_IMAGE_PREFIX} -n app
                     
                     echo "unleash the chaos => CPU hogging"
