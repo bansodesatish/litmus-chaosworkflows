@@ -14,10 +14,10 @@ spec:
         app: chaoscarnival-demo
     spec:
       imagePullSecrets:
-      - name: registrypullsecret
+      - name: {{REGISTRY_PULL_SECRET}}
       containers:
       - name: chaoscarnival-demo
-        image: chaoscarnival22/chaoscarnival-demo:latest
+        image: {{DOCKER_IMAGE}}
         resources:
           requests:
             cpu: 100m
