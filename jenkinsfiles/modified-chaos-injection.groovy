@@ -86,6 +86,8 @@ pipeline {
                             --network=host \
                             --tag ${APP_DOCKER_IMAGE_DEV} .
                     docker push ${APP_DOCKER_IMAGE_DEV}
+                    sed --help
+                    awk --help
                     '''
                     
                 }  
