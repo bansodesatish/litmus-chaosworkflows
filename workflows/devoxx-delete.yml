@@ -1,7 +1,7 @@
 kind: Workflow
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: custom-scenario-1658231882
+  name: {{WORKFLOW_NAME}}
   namespace: litmus
   creationTimestamp: null
   labels:

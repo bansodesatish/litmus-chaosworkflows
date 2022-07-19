@@ -145,4 +145,72 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            script {
+                triggerDesc = currentBuild.getBuildCauses().get(0).shortDescription
+                attachments = [
+                    [
+                        title: "${env.JOB_NAME}, build #${env.BUILD_NUMBER}",
+                        title_link: "${env.BUILD_URL}",
+                        color: colors[currentBuild.result],
+                        text: "${currentBuild.result}",
+                        fields: [
+                            [
+                                title: "Trigger",
+                                value: "${triggerDesc}",
+                                short: true
+                            ],
+                            [
+                                title: "Chaos Results",
+                                value: "${chaosResults}",
+                                short: true
+                            ],
+                            [
+                                title: "Duration",
+                                value: "${currentBuild.durationString}",
+                                short: true
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        }
+
+        success {
+            script {
+                slackSend (
+                    channel: "${slackChannel}",
+                    attachments: attachments
+                )
+            }
+        }
+
+        unstable {
+            script {
+                slackSend (
+                    channel: "${slackChannel}",
+                    attachments: attachments
+                )
+            }
+        }
+
+        failure {
+            script {
+                slackSend (
+                    channel: "${slackChannel}",
+                    attachments: attachments
+                )
+            }
+        }
+
+        aborted {
+            script {
+                slackSend (
+                    channel: "${slackChannel}",
+                    attachments: attachments
+                )
+            }
+        }
+    }
 }

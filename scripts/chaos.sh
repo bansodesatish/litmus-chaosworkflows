@@ -2,8 +2,9 @@
 
 echo "wait 60 Sec..............."
 sleep 60;
-
-kubectl apply -f workflows/devoxx-delete.yml
+WORKFLOW_NAME=workflow-$BUILD_NUMBER
+cat workflows/devoxx-delete.yml | sed "s|{{WORKFLOW_NAME}}|$WORKFLOW_NAME|" | kubectl apply -f -
+# kubectl apply -f workflows/devoxx-delete.yml
 until kubectl get workflow  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
 do
   echo "waiting for the chaos to finish";
