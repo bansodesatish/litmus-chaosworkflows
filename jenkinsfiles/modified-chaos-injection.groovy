@@ -28,7 +28,7 @@ pipeline {
                 serviceAccountName: jenkins
                 containers:
                 - name: chaos-builder
-                  image: jenkinsxio/builder-baseimage:0.0.24
+                  image: jenkinsxio/builder-base:0.1.275
                   command:
                   - cat
                   tty: true
