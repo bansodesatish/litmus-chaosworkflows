@@ -2,8 +2,8 @@
 
 echo "wait 60 Sec..............."
 sleep 60;
-echo $LITMUS_CREDENTIALS_USR
-echo $LITMUS_CREDENTIALS_PSW
+echo "Litmus-user: "$LITMUS_CREDENTIALS_USR
+echo "Litmus-psw: "$LITMUS_CREDENTIALS_PSW
 echo "Configure litmusctl"
 litmusctl config set-account --endpoint="http://172.105.46.172:9091/" --username="admin" --password="admin"
 get 
