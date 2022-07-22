@@ -14,6 +14,7 @@ pipeline {
     environment {
 		DOCKERHUB_CREDENTIALS_DEV=credentials('bansodesatish24')
 		DOCKERHUB_CREDENTIALS_PROD=credentials('sat30bansode24')
+		LITMUS_CREDENTIALS=credentials('litmus')
         DOCKER_DEV_PATH = "bansodesatish24/dev"
         DOCKER_PROD_PATH = "sat30bansode24/prod"
         DOCKER_IMAGE_PREFIX = "chaoscarnival-demo"
@@ -28,7 +29,7 @@ pipeline {
                 serviceAccountName: jenkins
                 containers:
                 - name: chaos-builder
-                  image: jenkinsxio/builder-base:0.1.275
+                  image: bansodesatish24/builder-base:0.1.275v1
                   command:
                   - cat
                   tty: true
