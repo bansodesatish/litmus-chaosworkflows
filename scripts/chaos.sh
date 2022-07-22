@@ -5,8 +5,9 @@ sleep 60;
 echo "Litmus-user: "$LITMUS_CREDENTIALS_USR
 echo "Litmus-psw: "$LITMUS_CREDENTIALS_PSW
 echo "Configure litmusctl"
-litmusctl config set-account --endpoint="http://172.105.46.172:9091/" --username="admin" --password="admin"
-get 
+litmusctl config set-account --endpoint="http://litmusportal-frontend-service.litmus:9091/" --username="$LITMUS_CREDENTIALS_USR" --password="$LITMUS_CREDENTIALS_PSW"
+# litmusctl config set-account --endpoint="http://172.105.46.172:9091/" --username="$LITMUS_CREDENTIALS_USR" --password="$LITMUS_CREDENTIALS_PSW"
+
 LITMUS_WORKFLOW_AGENT_ID=$(litmusctl get agents --project-id="$(litmusctl get projects  -o yaml | yq '.[0].id' -)" -o yaml | yq '.getagent[0].clusterid' -)
 
 echo "Deploy workflow from yaml file"
