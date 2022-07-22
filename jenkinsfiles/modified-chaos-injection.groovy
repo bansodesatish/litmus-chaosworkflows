@@ -29,7 +29,7 @@ pipeline {
                 serviceAccountName: jenkins
                 containers:
                 - name: chaos-builder
-                  image: bansodesatish24/builder-base:0.1.275v2
+                  image: bansodesatish24/builder-base:0.1.275v3
                   command:
                   - cat
                   tty: true
