@@ -1,14 +1,14 @@
 kind: Workflow
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: "workflow-{{WORKFLOW_ID}}"
+  name: "workflow-49"
   namespace: litmus
   creationTimestamp: null
   labels:
-    cluster_id: "{{LITMUS_WORKFLOW_AGENT_ID}}"
-    subject: "custom-chaos-workflow_litmus_{{WORKFLOW_ID}}"
-    workflow_id: "{{WORKFLOW_ID}}"
-    workflows.argoproj.io/controller-instanceid: "{{LITMUS_WORKFLOW_AGENT_ID}}"
+    cluster_id: "fa0b7084-72d8-49c1-bfe0-0eb46293786b"
+    subject: "custom-chaos-workflow_litmus_49"
+    workflow_id: "49"
+    workflows.argoproj.io/controller-instanceid: "fa0b7084-72d8-49c1-bfe0-0eb46293786b"
 spec:
   templates:
     - name: custom-chaos
@@ -188,7 +188,7 @@ spec:
           - -c
         args:
           - kubectl apply -f /tmp/pod-delete.yaml -n
-            {{workflow.parameters.adminModeNamespace}} |  sleep 30
+            {{workflow.parameters.****ModeNamespace}} |  sleep 30
         resources: {}
     - name: pod-delete
       inputs:
@@ -200,19 +200,19 @@ spec:
                 apiVersion: litmuschaos.io/v1alpha1
                 kind: ChaosEngine
                 metadata:
-                  namespace: "{{workflow.parameters.adminModeNamespace}}"
+                  namespace: "{{workflow.parameters.****ModeNamespace}}"
                   generateName: pod-delete
                   labels:
                     instance_id: cb7ba38e-bf92-48dc-91f9-6b815fee6e8c
                     context: pod-delete_litmus
-                    workflow_name: "workflow-{{WORKFLOW_ID}}"
+                    workflow_name: {{WORKFLOW_NAME}}
                 spec:
                   appinfo:
                     appns: app
                     applabel: app=chaoscarnival-demo
                     appkind: deployment
                   engineState: active
-                  chaosServiceAccount: litmus-admin
+                  chaosServiceAccount: litmus-****
                   experiments:
                     - name: pod-delete
                       spec:
@@ -252,12 +252,12 @@ spec:
         args:
           - "kubectl delete chaosengine -l 'instance_id in
             (cb7ba38e-bf92-48dc-91f9-6b815fee6e8c, )' -n
-            {{workflow.parameters.adminModeNamespace}} "
+            {{workflow.parameters.****ModeNamespace}} "
         resources: {}
   entrypoint: custom-chaos
   arguments:
     parameters:
-      - name: adminModeNamespace
+      - name: ****ModeNamespace
         value: litmus
   serviceAccountName: argo-chaos
   podGC:

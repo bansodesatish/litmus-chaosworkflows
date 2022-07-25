@@ -205,7 +205,7 @@ spec:
                   labels:
                     instance_id: a53862cf-2b85-4f32-8719-bf96ec1dd97f
                     context: pod-delete_litmus
-                    workflow_name: {{WORKFLOW_NAME}}
+                    workflow_name: "workflow-{{WORKFLOW_ID}}"
                 spec:
                   appinfo:
                     appns: app
