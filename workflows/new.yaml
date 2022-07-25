@@ -178,6 +178,7 @@ spec:
                       app.kubernetes.io/part-of: litmus
                       app.kubernetes.io/component: experiment-job
                       app.kubernetes.io/version: 2.6.0
+                      workflow_name: "workflow-{{WORKFLOW_ID}}"
       outputs: {}
       metadata: {}
       container:
