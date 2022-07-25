@@ -59,7 +59,7 @@ pipeline {
                             slackSend (
                                 channel: "${slackChannel}",
                                 attachments: [[
-                                    title: "${decodedJobName}, build #101",
+                                    title: "${decodedJobName}, build #${BUILD_NUMBER}",
                                     title_link: "${env.BUILD_URL}",
                                     color: '#11aac4',
                                     text: "Started",
