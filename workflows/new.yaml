@@ -1,14 +1,14 @@
 kind: Workflow
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: custom-chaos-workflow-1658731072
+  name: "workflow-{{WORKFLOW_ID}}"
   namespace: litmus
   creationTimestamp: null
   labels:
-    cluster_id: fa0b7084-72d8-49c1-bfe0-0eb46293786b
-    subject: custom-chaos-workflow_litmus
-    workflow_id: e976ec3f-6083-497f-aaf8-462a7162651f
-    workflows.argoproj.io/controller-instanceid: fa0b7084-72d8-49c1-bfe0-0eb46293786b
+    cluster_id: "{{LITMUS_WORKFLOW_AGENT_ID}}"
+    subject: "custom-chaos-workflow_litmus_{{WORKFLOW_ID}}"
+    workflow_id: "{{WORKFLOW_ID}}"
+    workflows.argoproj.io/controller-instanceid: "{{LITMUS_WORKFLOW_AGENT_ID}}"
 spec:
   templates:
     - name: custom-chaos
@@ -205,7 +205,7 @@ spec:
                   labels:
                     instance_id: cb7ba38e-bf92-48dc-91f9-6b815fee6e8c
                     context: pod-delete_litmus
-                    workflow_name: custom-chaos-workflow-1658731072
+                    workflow_name: {{WORKFLOW_NAME}}
                 spec:
                   appinfo:
                     appns: app

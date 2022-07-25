@@ -11,7 +11,7 @@ litmusctl config set-account --endpoint="http://litmusportal-frontend-service.li
 LITMUS_WORKFLOW_AGENT_ID=$(litmusctl get agents --project-id="$(litmusctl get projects  -o yaml | yq '.[0].id' -)" -o yaml | yq '.getagent[0].clusterid' -)
 
 echo "Deploy workflow from yaml file"
-cat workflows/pod-delete.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
+cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
 # kubectl apply -f workflows/devoxx-delete.yml
 until kubectl get workflow  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
 do
