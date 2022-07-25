@@ -1,30 +1,29 @@
-kind: Workflow
 apiVersion: argoproj.io/v1alpha1
+kind: Workflow
 metadata:
-  name: workflow-{{WORKFLOW_ID}}
+  name: custom-chaos-workflow-1658731072
   namespace: litmus
-  creationTimestamp: null
   labels:
-    cluster_id: "{{LITMUS_WORKFLOW_AGENT_ID}}"
-    subject: "custom-chaos-workflow_litmus_{{WORKFLOW_ID}}"
-    workflow_id: "{{WORKFLOW_ID}}"
-    workflows.argoproj.io/controller-instanceid: "{{LITMUS_WORKFLOW_AGENT_ID}}"
+    subject: custom-chaos-workflow_litmus
 spec:
+  arguments:
+    parameters:
+      - name: adminModeNamespace
+        value: litmus
+  entrypoint: custom-chaos
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: argo-chaos
   templates:
     - name: custom-chaos
-      inputs: {}
-      outputs: {}
-      metadata: {}
       steps:
         - - name: install-chaos-experiments
             template: install-chaos-experiments
-            arguments: {}
         - - name: pod-delete
             template: pod-delete
-            arguments: {}
         - - name: revert-chaos
             template: revert-chaos
-            arguments: {}
     - name: install-chaos-experiments
       inputs:
         artifacts:
@@ -178,18 +177,14 @@ spec:
                       app.kubernetes.io/part-of: litmus
                       app.kubernetes.io/component: experiment-job
                       app.kubernetes.io/version: 2.6.0
-      outputs: {}
-      metadata: {}
       container:
-        name: ""
-        image: litmuschaos/k8s:latest
-        command:
-          - sh
-          - -c
         args:
           - kubectl apply -f /tmp/pod-delete.yaml -n
             {{workflow.parameters.adminModeNamespace}} |  sleep 30
-        resources: {}
+        command:
+          - sh
+          - -c
+        image: litmuschaos/k8s:latest
     - name: pod-delete
       inputs:
         artifacts:
@@ -203,9 +198,8 @@ spec:
                   namespace: "{{workflow.parameters.adminModeNamespace}}"
                   generateName: pod-delete
                   labels:
-                    instance_id: a53862cf-2b85-4f32-8719-bf96ec1dd97f
+                    instance_id: cb7ba38e-bf92-48dc-91f9-6b815fee6e8c
                     context: pod-delete_litmus
-                    workflow_name: {{WORKFLOW_NAME}}
                 spec:
                   appinfo:
                     appns: app
@@ -228,43 +222,20 @@ spec:
                               value: ""
                         probe: []
                   annotationCheck: "false"
-      outputs: {}
-      metadata:
-        labels:
-          weight: "10"
       container:
-        name: ""
-        image: litmuschaos/litmus-checker:latest
         args:
           - -file=/tmp/chaosengine-pod-delete.yaml
           - -saveName=/tmp/engine-name
-        resources: {}
+        image: litmuschaos/litmus-checker:latest
     - name: revert-chaos
-      inputs: {}
-      outputs: {}
-      metadata: {}
       container:
-        name: ""
         image: litmuschaos/k8s:latest
         command:
           - sh
           - -c
         args:
           - "kubectl delete chaosengine -l 'instance_id in
-            (a53862cf-2b85-4f32-8719-bf96ec1dd97f, )' -n
+            (cb7ba38e-bf92-48dc-91f9-6b815fee6e8c, )' -n
             {{workflow.parameters.adminModeNamespace}} "
-        resources: {}
-  entrypoint: custom-chaos
-  arguments:
-    parameters:
-      - name: adminModeNamespace
-        value: litmus
-  serviceAccountName: argo-chaos
   podGC:
     strategy: OnWorkflowCompletion
-  securityContext:
-    runAsUser: 1000
-    runAsNonRoot: true
-status:
-  ? startedAt
-  ? finishedAt

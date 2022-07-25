@@ -1,14 +1,14 @@
 kind: Workflow
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: workflow-{{WORKFLOW_ID}}
+  name: custom-chaos-workflow-1658731072
   namespace: litmus
   creationTimestamp: null
   labels:
-    cluster_id: "{{LITMUS_WORKFLOW_AGENT_ID}}"
-    subject: "custom-chaos-workflow_litmus_{{WORKFLOW_ID}}"
-    workflow_id: "{{WORKFLOW_ID}}"
-    workflows.argoproj.io/controller-instanceid: "{{LITMUS_WORKFLOW_AGENT_ID}}"
+    cluster_id: fa0b7084-72d8-49c1-bfe0-0eb46293786b
+    subject: custom-chaos-workflow_litmus
+    workflow_id: e976ec3f-6083-497f-aaf8-462a7162651f
+    workflows.argoproj.io/controller-instanceid: fa0b7084-72d8-49c1-bfe0-0eb46293786b
 spec:
   templates:
     - name: custom-chaos
@@ -203,9 +203,9 @@ spec:
                   namespace: "{{workflow.parameters.adminModeNamespace}}"
                   generateName: pod-delete
                   labels:
-                    instance_id: a53862cf-2b85-4f32-8719-bf96ec1dd97f
+                    instance_id: cb7ba38e-bf92-48dc-91f9-6b815fee6e8c
                     context: pod-delete_litmus
-                    workflow_name: {{WORKFLOW_NAME}}
+                    workflow_name: custom-chaos-workflow-1658731072
                 spec:
                   appinfo:
                     appns: app
@@ -251,7 +251,7 @@ spec:
           - -c
         args:
           - "kubectl delete chaosengine -l 'instance_id in
-            (a53862cf-2b85-4f32-8719-bf96ec1dd97f, )' -n
+            (cb7ba38e-bf92-48dc-91f9-6b815fee6e8c, )' -n
             {{workflow.parameters.adminModeNamespace}} "
         resources: {}
   entrypoint: custom-chaos
