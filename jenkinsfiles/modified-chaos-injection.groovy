@@ -109,11 +109,15 @@ pipeline {
                     echo "unleash the chaos => CPU hogging"
                     ./scripts/chaos.sh
                     '''
+                    script {
+
+                    }
                 }  
                 script {
                     chaosResults  = readFile('report.txt').trim()
                     chaosResult=sh returnStdout: true, script: 'grep -q "Pass" report.txt; test $? -eq 0 && printf "Pass" || printf "Fail"'
-
+                    probeSuccessPercentage =  readFile('probeSuccessPercentage.txt')                    
+                    chaosStatus =  readFile('verdict.txt')
                 }
             }
         }
@@ -164,8 +168,13 @@ pipeline {
                                 short: true
                             ],
                             [
-                                title: "Chaos Results",
-                                value: "${chaosResults}",
+                                title: "Chaos Percentage",
+                                value: "${probeSuccessPercentage}",
+                                short: true
+                            ],
+                            [
+                                title: "chaos Status",
+                                value: "${chaosStatus}",
                                 short: true
                             ],
                             [
