@@ -35,6 +35,6 @@ echo "Getting.. \"workflow-$BUILD_NUMBER\" chaos workflow result"
 chaosResults=$(kubectl get $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{"ExperimentName: "}{.metadata.labels.name}{"; verdict: "}{.status.experimentStatus.verdict}{"; Resilience Score: "}{.status.experimentStatus.probeSuccessPercentage}{" || "}' -nlitmus);
 echo $chaosResults >> report.txt;
 
-kubectl get chaosresult $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{.status.experimentStatus.probeSuccessPercentage}' -n litmus >> probeSuccessPercentage.txt
-kubectl get chaosresult $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{.status.experimentStatus.verdict}' -n litmus >> verdict.txt
+kubectl get $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{.status.experimentStatus.probeSuccessPercentage}' -n litmus >> probeSuccessPercentage.txt
+kubectl get  $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{.status.experimentStatus.verdict}' -n litmus >> verdict.txt
 
