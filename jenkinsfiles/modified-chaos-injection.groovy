@@ -109,9 +109,6 @@ pipeline {
                     echo "unleash the chaos => CPU hogging"
                     ./scripts/chaos.sh
                     '''
-                    script {
-
-                    }
                 }  
                 script {
                     chaosResults  = readFile('report.txt').trim()
