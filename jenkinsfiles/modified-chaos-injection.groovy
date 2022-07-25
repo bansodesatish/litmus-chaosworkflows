@@ -140,7 +140,7 @@ pipeline {
             steps {
                 container('chaos-builder') {
                     sh '''
-                    # ./scripts/cleanup.sh
+                    ./scripts/cleanup.sh
                     '''
                     
                 }  

@@ -20,13 +20,17 @@ cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMU
 set -x
 until kubectl get workflow workflow-$BUILD_NUMBER -o jsonpath='{.metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
 do
-  echo "waiting for the \"workflow-$BUILD_NUMBER\" chaos workflow to finish";
+  echo "waiting.. for the \"workflow-$BUILD_NUMBER\" chaos workflow to finish";
 done
 set +x
 sleep 10;
 
-for each in $(kubectl get chaosresult -nlitmus --no-headers -oname);
-do
-    chaosResults=$(kubectl get $each -o jsonpath='{"ExperimentName: "}{.metadata.labels.name}{"; verdict: "}{.status.experimentStatus.verdict}{"; Resilience Score: "}{.status.experimentStatus.probeSuccessPercentage}{" || "}' -nlitmus);
-    echo $chaosResults >> report.txt;
-done;
+# for each in $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER);
+# do
+#     chaosResults=$(kubectl get $each -o jsonpath='{"ExperimentName: "}{.metadata.labels.name}{"; verdict: "}{.status.experimentStatus.verdict}{"; Resilience Score: "}{.status.experimentStatus.probeSuccessPercentage}{" || "}' -nlitmus);
+#     echo $chaosResults >> report.txt;
+# done;
+echo "Getting.. \"workflow-$BUILD_NUMBER\" chaos workflow result"
+# chaosresultName=$(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER)
+chaosResults=$(kubectl get $(kubectl get chaosresult -nlitmus --no-headers -oname -l workflow_name=workflow-$BUILD_NUMBER) -o jsonpath='{"ExperimentName: "}{.metadata.labels.name}{"; verdict: "}{.status.experimentStatus.verdict}{"; Resilience Score: "}{.status.experimentStatus.probeSuccessPercentage}{" || "}' -nlitmus);
+echo $chaosResults >> report.txt;
