@@ -18,9 +18,9 @@ cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMU
 
 # until kubectl get workflow  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
 set -x
-until kubectl get workflow workflow-$WORKFLOW_ID -o jsonpath='{.metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
+until kubectl get workflow workflow-$BUILD_NUMBER -o jsonpath='{.metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
 do
-  echo "waiting for the \"workflow-$WORKFLOW_ID\" chaos workflow to finish";
+  echo "waiting for the \"workflow-$BUILD_NUMBER\" chaos workflow to finish";
 done
 set +x
 sleep 10;
