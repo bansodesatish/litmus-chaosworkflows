@@ -1,7 +1,7 @@
 kind: Workflow
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: workflow-{{WORKFLOW_ID}}
+  name: "workflow-{{WORKFLOW_ID}}"
   namespace: litmus
   creationTimestamp: null
   labels:
