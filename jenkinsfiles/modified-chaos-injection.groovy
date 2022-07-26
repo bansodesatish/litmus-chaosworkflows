@@ -124,8 +124,7 @@ pipeline {
             }
             steps {
                 script {
-                echo "Chaos workflow failed"
-                error('Chaos workflow failed')
+                error 'Chaos workflow failed'
                 }
             }
         }
