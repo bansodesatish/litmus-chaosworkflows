@@ -209,8 +209,8 @@ spec:
                     workflow_name: "workflow-{{WORKFLOW_ID}}"
                 spec:
                   appinfo:
-                    appns: appns
-                    applabel: app=chaoscarnival-demo
+                    appns: app
+                    applabel: app=nginx
                     appkind: deployment
                   engineState: active
                   chaosServiceAccount: litmus-admin
