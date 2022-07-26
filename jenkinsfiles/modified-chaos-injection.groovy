@@ -124,7 +124,7 @@ pipeline {
                 expression { chaosResult == 'Fail' }
             }
             steps {
-                currentBuild.result = 'ABORTED'
+                
                 error('Chaos workflow failed')
             }
         }
