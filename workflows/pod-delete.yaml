@@ -178,6 +178,7 @@ spec:
                       app.kubernetes.io/part-of: litmus
                       app.kubernetes.io/component: experiment-job
                       app.kubernetes.io/version: 2.6.0
+                      workflow_name: "workflow-{{WORKFLOW_ID}}"
       outputs: {}
       metadata: {}
       container:
@@ -203,12 +204,12 @@ spec:
                   namespace: "{{workflow.parameters.adminModeNamespace}}"
                   generateName: pod-delete
                   labels:
-                    instance_id: a53862cf-2b85-4f32-8719-bf96ec1dd97f
+                    instance_id: cb7ba38e-bf92-48dc-91f9-6b815fee6e8c
                     context: pod-delete_litmus
                     workflow_name: "workflow-{{WORKFLOW_ID}}"
                 spec:
                   appinfo:
-                    appns: app
+                    appns: appns
                     applabel: app=chaoscarnival-demo
                     appkind: deployment
                   engineState: active
@@ -251,7 +252,7 @@ spec:
           - -c
         args:
           - "kubectl delete chaosengine -l 'instance_id in
-            (a53862cf-2b85-4f32-8719-bf96ec1dd97f, )' -n
+            (cb7ba38e-bf92-48dc-91f9-6b815fee6e8c, )' -n
             {{workflow.parameters.adminModeNamespace}} "
         resources: {}
   entrypoint: custom-chaos

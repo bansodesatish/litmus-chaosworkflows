@@ -13,7 +13,7 @@ LITMUS_WORKFLOW_AGENT_ID=$(litmusctl get agents --project-id="$(litmusctl get pr
 cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|"
 
 echo "Deploy workflow from yaml file"
-cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
+cat workflows/pod-delete.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
 # kubectl apply -f workflows/devoxx-delete.yml
 
 # until kubectl get workflow  --sort-by=.metadata.creationTimestamp -o jsonpath='{.items[-1:].metadata.labels.\workflows\.argoproj\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
