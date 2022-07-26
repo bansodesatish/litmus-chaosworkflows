@@ -118,16 +118,6 @@ pipeline {
                 }
             }
         }
-        stage('workflow Failed') {
-            when {
-                expression { chaosResult == 'Fail' }
-            }
-            steps {
-                script {
-                    echo "workflow failed"
-                }
-            }
-        }
         stage('Promote image') {
             when {
                 expression { chaosResult == 'Pass' }
