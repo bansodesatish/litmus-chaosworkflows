@@ -115,7 +115,7 @@ pipeline {
                     chaosResult=sh returnStdout: true, script: 'grep -q "Pass" report.txt; test $? -eq 0 && printf "Pass" || printf "Fail"'
                     probeSuccessPercentage =  readFile('probeSuccessPercentage.txt')                    
                     chaosStatus =  readFile('verdict.txt')
-                    printf "chaosResult: $chaosResult"
+                    echo "chaosResult: ${chaosResult}"
                 }
             }
         }
@@ -125,7 +125,7 @@ pipeline {
             }
             steps {
                 script {
-                printf "Chaos workflow failed"
+                echo "Chaos workflow failed"
                 error('Chaos workflow failed')
                 }
             }
