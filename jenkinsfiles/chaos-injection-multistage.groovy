@@ -95,7 +95,7 @@ pipeline {
                 }  
             }
         }
-        stage('Deploy the Sample App') {
+        stage('Deploying Sample App') {
             steps {
                 container('chaos-builder') {  
                     sh '''
@@ -109,7 +109,7 @@ pipeline {
                 }  
             }
         }
-        stage('inject chaos') {
+        stage('injecting chaos') {
             steps {
                 container('chaos-builder') {  
                     sh '''
@@ -124,7 +124,7 @@ pipeline {
 
                     
                     echo "Deploy workflow from yaml file"
-                    cat workflows/new.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
+                    cat workflows/workflow.yaml | sed "s|{{WORKFLOW_ID}}|$BUILD_NUMBER|" | sed "s|{{LITMUS_WORKFLOW_AGENT_ID}}|$LITMUS_WORKFLOW_AGENT_ID|" | kubectl apply -f -
                     '''
                 }  
             }
@@ -168,7 +168,7 @@ pipeline {
                 }
             }
         }
-        stage('Promote image') {
+        stage('Promoting image to Prod') {
             when {
                 expression { chaosResult == 'Pass' }
             }
