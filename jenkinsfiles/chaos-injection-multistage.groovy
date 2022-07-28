@@ -109,7 +109,7 @@ pipeline {
                 }  
             }
         }
-        stage('injecting chaos') {
+        stage('Injecting chaos') {
             steps {
                 container('chaos-builder') {  
                     sh '''
@@ -129,7 +129,7 @@ pipeline {
                 }  
             }
         }
-        stage('waiting chaos to finish') {
+        stage('Waiting chaos to finish') {
             steps {
                 container('chaos-builder') {  
                     sh '''
