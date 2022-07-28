@@ -134,7 +134,7 @@ pipeline {
                 container('chaos-builder') {  
                     sh '''
                     set -x
-                    until kubectl get workflow workflow-$BUILD_NUMBER -o jsonpath='{.metadata.labels.\\workflows\\.argoproj\\.io\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
+                    until kubectl get workflow workflow-$BUILD_NUMBER -o jsonpath='{.metadata.labels.\\workflows\\.argoproj\\.io\\/phase}' -nlitmus | grep -m 1 "Succeeded\|Failed";
                     do
                     echo "waiting.. for the \"workflow-$BUILD_NUMBER\" chaos workflow to finish";
                     done
